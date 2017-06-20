@@ -19,10 +19,10 @@ if __name__ == "__main__":
 
     w2v_nb = SciKitClassifier(train_database, word2vec_features, GaussianNB())
     print("gaussian NB")
-    #print(evaluate(w2v_nb, test_database))
+    # to print the evaluation result
     for guess in evaluate(w2v_nb, test_database):
         print(guess)
-
+'''
     for features_gen in features:
         svm_pipeline = \
             make_pipeline(pre.StandardScaler(),  AdaBoostRegressor(n_estimators = 256))
@@ -30,7 +30,8 @@ if __name__ == "__main__":
         features_gen = concat(features_gen, word2vec_features)
         print("features", features_gen.name)
         #print(evaluate(classifier, test_database))
+        # to print the evaluation result
         for guess in evaluate(classifier, test_database):
             print(guess)
-
+'''
     # print("\n".join(str(x) for x in train_database[0:10]))

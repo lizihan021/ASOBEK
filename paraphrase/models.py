@@ -1,4 +1,5 @@
 import modelclasses as model
+import csv
 import re
 
 TRAIN_LABEL_REGEX = re.compile("\((\d),\s*(\d)\)\s?")
@@ -7,9 +8,9 @@ class InvalidLabelFormat(Exception):
     pass
 
 def _train_label_from_str(str):
-    if str == "0\n" :
+    if str == "0\n" or str == "0" :
         str = "(0, 5)"
-    elif str == "1\n" :
+    elif str == "1\n" or str == "1" :
         str = "(5, 0)"
     else :
         print(str)

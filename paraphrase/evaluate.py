@@ -29,5 +29,6 @@ class Score:
 #     return Score((classifier.classify(dr), ans) \
 #         for dr, ans in zip(test_database, test_labels) \
 #         if not dr.is_debatable())
+# we don't count score here since we don't have correct answer
 def evaluate(classifier, test_database):
     return (classifier.classify(dr) for dr in test_database)

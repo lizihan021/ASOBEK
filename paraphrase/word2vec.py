@@ -12,7 +12,6 @@ def _norm(v):
     return sqrt(np.dot(v, v))
 
 def _get_words_vec(sentence):
-    #print(sentence, [_word2vec[word] for word in get_words(sentence) if word in _word2vec])
     return sum(_word2vec[word] for word in get_words(sentence)\
         if word in _word2vec)
 

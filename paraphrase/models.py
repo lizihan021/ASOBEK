@@ -26,6 +26,8 @@ TrainLabel = model.VarType(
 
 class TrainDataRow(model.Model):
     topic_id = model.Integer
+    s1_id = model.Integer
+    s2_id = model.Integer
     sent_1 = model.String
     sent_2 = model.String
     label = TrainLabel
@@ -48,9 +50,17 @@ class TestDataRow(model.Model):
     # def is_debatable(self):
     #     return self.label is 3
 
+# def read_database(filename, datarow_class):
+#     with open(filename) as io:
+#         # for line in io:
+#         #     print(line.split("\t"))
+#         return [datarow_class.from_tuple(line.split("\t")) for line in io]
+
 def read_database(filename, datarow_class):
     with open(filename) as io:
-        return [datarow_class.from_tuple(line.split("\t")) for line in io]
+        csv.field_size_limit(700000)
+        csvreader = csv.reader(io)
+        return [datarow_class.from_tuple(line) for line in csvreader]
 
 def read_test_labels(tests_file):
     def handle_line(line):

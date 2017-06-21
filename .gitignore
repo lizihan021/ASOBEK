@@ -5,3 +5,4 @@ paraphrase/filemap.w2v
 */*.pyc
 SemEval-PIT2015
 quora_dataset/*
+*/*.csv

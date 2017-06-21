@@ -12,8 +12,10 @@ import sklearn.preprocessing as pre
 
 
 if __name__ == "__main__":
-    train_database = read_database("./paraphrase/train.data", TrainDataRow)
-    test_database  = read_database("./paraphrase/test.data", TestDataRow)
+    train_database = read_database("./paraphrase/train.csv", TrainDataRow)
+    test_database  = read_database("./paraphrase/test.csv", TestDataRow)
+    print(len(train_database))
+    print(len(test_database))
     features = [C1, C2, V1, V2] + \
         [concat(c, v) for c in [C1, C2] for v in [V1, V2]]
 

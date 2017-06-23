@@ -41,7 +41,8 @@ if __name__ == "__main__":
         writer.writerow(['test_id', 'is_duplicate'])
         for guess in evaluate(w2v_nb, test_database):
             writer.writerow(guess)
-            print("writting row " + str(guess[0]), end="\r")
+            if guess[0] % 1000 == 0:
+                print("writting row " + str(guess[0]), end="\r")
 
 '''
     for features_gen in features:

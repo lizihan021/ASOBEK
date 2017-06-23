@@ -25,13 +25,13 @@ if __name__ == "__main__":
     features = [C1, C2, V1, V2] + \
         [concat(c, v) for c in [C1, C2] for v in [V1, V2]]
 
-    if not os.path.isfile('NBclassfier.pkl'):
-        with open('company_data.pkl', 'wb') as output:
+    if not os.path.isfile('./paraphrase/NBclassfier.pkl'):
+        with open('./paraphrase/NBclassfier.pkl', 'wb') as output:
             w2v_nb = SciKitClassifier(train_database, word2vec_features, GaussianNB())
             pickle.dump(w2v_nb, output, pickle.HIGHEST_PROTOCOL)
             print('classfier trained and saved')
     else:
-        with open('NBclassfier.pkl', 'rb') as input:
+        with open('./paraphrase/NBclassfier.pkl', 'rb') as input:
             w2v_nb = pickle.load(input)
             print('classfier loaded')
 

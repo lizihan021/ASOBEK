@@ -9,21 +9,29 @@ from sklearn.ensemble import RandomForestClassifier,AdaBoostRegressor
 from sklearn.pipeline import make_pipeline
 from sklearn import svm
 import sklearn.preprocessing as pre
+import csv
 
 
 if __name__ == "__main__":
+    print('reading database')
     train_database = read_database("./paraphrase/train.csv", TrainDataRow)
+    print('train data size: ' + str(len(train_database)))
     test_database  = read_database("./paraphrase/test.csv", TestDataRow)
-    print(len(train_database))
-    print(len(test_database))
+    print('test data size: ' + str(len(test_database)))
+    # TODO: check database valid?
+
     features = [C1, C2, V1, V2] + \
         [concat(c, v) for c in [C1, C2] for v in [V1, V2]]
 
     w2v_nb = SciKitClassifier(train_database, word2vec_features, GaussianNB())
-    print("gaussian NB")
-    # to print the evaluation result
-    for guess in evaluate(w2v_nb, test_database):
-        print(guess)
+
+    print("using gaussian NB")
+    with open("./paraphrase/output.csv", 'w') as output_file:
+        writer = csv.writer(output_file)
+        writer.writerow(['test_id', 'is_duplicate'])
+        for guess in evaluate(w2v_nb, test_database):
+            writer.writerow(guess)
+            print("writting row " + str(guess[0]), end="\r")
 '''
     for features_gen in features:
         svm_pipeline = \
@@ -31,9 +39,6 @@ if __name__ == "__main__":
         classifier = SciKitClassifier(train_database, features_gen, svm_pipeline)
         features_gen = concat(features_gen, word2vec_features)
         print("features", features_gen.name)
-        #print(evaluate(classifier, test_database))
-        # to print the evaluation result
         for guess in evaluate(classifier, test_database):
             print(guess)
 '''
-    # print("\n".join(str(x) for x in train_database[0:10]))

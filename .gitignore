@@ -6,3 +6,4 @@ paraphrase/filemap.w2v
 SemEval-PIT2015
 quora_dataset/*
 */*.csv
+paraphrase/NBclassfier.pkl

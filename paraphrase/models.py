@@ -1,6 +1,7 @@
 import modelclasses as model
 import csv
 import re
+from .word2vec import _get_words_vec, _norm
 
 class InvalidLabelFormat(Exception):
     pass
@@ -19,7 +20,11 @@ class TrainDataRow(model.Model):
 
     def is_debatable(self):
         return 0
-        #return self.label[0] is 2
+        
+    def is_not_valid(self):
+        return (_norm(_get_words_vec(self.sent_1)) == 0) or \
+               (_norm(_get_words_vec(self.sent_2)) == 0)
+
 
 class TestDataRow(model.Model):
     topic_id = model.Integer

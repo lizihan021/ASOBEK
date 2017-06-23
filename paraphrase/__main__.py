@@ -32,6 +32,7 @@ if __name__ == "__main__":
         for guess in evaluate(w2v_nb, test_database):
             writer.writerow(guess)
             print("writting row " + str(guess[0]), end="\r")
+
 '''
     for features_gen in features:
         svm_pipeline = \

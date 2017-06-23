@@ -19,10 +19,7 @@ def _get_words_vec(sentence):
 def word2vec_features(data_row):
     u, v = map(_get_words_vec, (data_row.sent_1, data_row.sent_2))
     c, d = map(_norm, (u, v))
-    if c == 0:
-    	print(data_row)
-    	c = 1
-    if d == 0:
-    	print(data_row)
-    	d = 1
-    return [np.dot(u, v) / c / d]
+    if c == 0 or d == 0:
+    	return None
+    else:
+    	return [np.dot(u, v) / c / d]

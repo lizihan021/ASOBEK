@@ -29,9 +29,11 @@ if __name__ == "__main__":
         with open('company_data.pkl', 'wb') as output:
             w2v_nb = SciKitClassifier(train_database, word2vec_features, GaussianNB())
             pickle.dump(w2v_nb, output, pickle.HIGHEST_PROTOCOL)
+            print('classfier trained and saved')
     else:
         with open('NBclassfier.pkl', 'rb') as input:
             w2v_nb = pickle.load(input)
+            print('classfier loaded')
 
     print("using gaussian NB")
     with open("./paraphrase/output.csv", 'w') as output_file:

@@ -31,4 +31,4 @@ class Score:
 #         if not dr.is_debatable())
 # we don't count score here since we don't have correct answer
 def evaluate(classifier, test_database):
-    return ([ dr.topic_id , int(classifier.classify(dr))] for dr in test_database)
+    return ([ dr.topic_id , int(classifier.classify(dr))] for dr in test_database if dr.is_valid())

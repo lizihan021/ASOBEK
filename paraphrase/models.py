@@ -20,10 +20,6 @@ class TrainDataRow(model.Model):
 
     def is_debatable(self):
         return 0
-        
-    def is_not_valid(self):
-        return (_norm(_get_words_vec(self.sent_1)) == 0) or \
-               (_norm(_get_words_vec(self.sent_2)) == 0)
 
 
 class TestDataRow(model.Model):
@@ -31,6 +27,10 @@ class TestDataRow(model.Model):
     sent_1 = model.String
     sent_2 = model.String
     # label = model.Integer
+
+    def is_valid(self):
+        return (_norm(_get_words_vec(self.sent_1)) != 0) and \
+               (_norm(_get_words_vec(self.sent_2)) != 0)
 
     # def is_paraphrase(self):
     #     return self.label in (4, 5)

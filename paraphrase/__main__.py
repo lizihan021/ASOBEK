@@ -10,6 +10,8 @@ from sklearn.pipeline import make_pipeline
 from sklearn import svm
 import sklearn.preprocessing as pre
 import csv
+import os.path
+import pickle
 
 
 if __name__ == "__main__":
@@ -23,7 +25,13 @@ if __name__ == "__main__":
     features = [C1, C2, V1, V2] + \
         [concat(c, v) for c in [C1, C2] for v in [V1, V2]]
 
-    w2v_nb = SciKitClassifier(train_database, word2vec_features, GaussianNB())
+    if not os.path.isfile('NBclassfier.pkl'):
+        with open('company_data.pkl', 'wb') as output:
+            w2v_nb = SciKitClassifier(train_database, word2vec_features, GaussianNB())
+            pickle.dump(w2v_nb, output, pickle.HIGHEST_PROTOCOL)
+    else:
+        with open('NBclassfier.pkl', 'rb') as input:
+            w2v_nb = pickle.load(input)
 
     print("using gaussian NB")
     with open("./paraphrase/output.csv", 'w') as output_file:

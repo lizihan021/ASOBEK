@@ -38,24 +38,24 @@ if __name__ == "__main__":
     features = [C1, C2, V1, V2] + \
         [concat(c, v) for c in [C1, C2] for v in [V1, V2]]
 
-    # if not os.path.isfile('./data/NBclassfier.pkl'):
-    #     with open('./data/NBclassfier.pkl', 'wb') as output:
-    #         w2v_nb = SciKitClassifier(train_database, word2vec_features, GaussianNB())
-    #         pickle.dump(w2v_nb, output, pickle.HIGHEST_PROTOCOL)
-    #         print('NB classfier trained and saved')
-    # else:
-    #     with open('./data/NBclassfier.pkl', 'rb') as input:
-    #         w2v_nb = pickle.load(input)
-    #         print('NB classfier loaded')
+    if not os.path.isfile('./data/NBclassfier.pkl'):
+        with open('./data/NBclassfier.pkl', 'wb') as output:
+            w2v_nb = SciKitClassifier(train_database, word2vec_features, GaussianNB())
+            pickle.dump(w2v_nb, output, pickle.HIGHEST_PROTOCOL)
+            print('NB classfier trained and saved')
+    else:
+        with open('./data/NBclassfier.pkl', 'rb') as input:
+            w2v_nb = pickle.load(input)
+            print('NB classfier loaded')
 
-    # print("using gaussian NB")
-    # with open("./data/output.csv", 'w') as output_file:
-    #     writer = csv.writer(output_file)
-    #     writer.writerow(['test_id', 'is_duplicate'])
-    #     for guess in evaluate(w2v_nb, test_database):
-    #         writer.writerow(guess)
-    #         if guess[0] % 1000 == 0:
-    #             print("writting row " + str(guess[0]), end="\r")
+    print("using gaussian NB")
+    with open("./data/output.csv", 'w') as output_file:
+        writer = csv.writer(output_file)
+        writer.writerow(['test_id', 'is_duplicate'])
+        for guess in evaluate(w2v_nb, test_database):
+            writer.writerow(guess)
+            if guess[0] % 1000 == 0:
+                print("writting row " + str(guess[0]), end="\r")
     
     for features_gen in features:
         svm_pipeline = \
@@ -65,11 +65,11 @@ if __name__ == "__main__":
             with open(('./data/svm'+features_gen.name+'.pkl'), 'wb') as output:
                 classifier = SciKitClassifier(train_database, word2vec_features, GaussianNB())
                 pickle.dump(classifier , output, pickle.HIGHEST_PROTOCOL)
-                print('svm classfier trained and saved')
+                print('svm' + features_gen.name + ' classfier trained and saved')
         else:
             with open(('./data/svm'+features_gen.name+'.pkl'), 'rb') as input:
                 classifier = pickle.load(input)
-                print('svm classfier loaded')
+                print('svm' + features_gen.name + ' classfier loaded')
 
         with open(('./data/output'+features_gen.name+'.csv'), 'w') as output_file:
             writer = csv.writer(output_file)

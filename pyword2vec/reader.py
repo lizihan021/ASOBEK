@@ -5,7 +5,7 @@ import pickle
 import io
 np = numpy
 
-DATABASE_FILE = "./GoogleNews-vectors-negative300.bin.gz"
+DATABASE_FILE = "./data/GoogleNews-vectors-negative300.bin.gz"
 WORD2VEC_PICKLE_FILE = Path("word2vec.pickle.gz")
 
 def read_wordvec_database(database_file = DATABASE_FILE):

@@ -1,9 +1,6 @@
 __pycache__
-GoogleNews-vectors-negative300.bin.gz
-paraphrase/filemap.w2v
 */__pycache__
 */*.pyc
 SemEval-PIT2015
-quora_dataset/*
-*/*.csv
-paraphrase/NBclassfier.pkl
+quora_dataset
+data

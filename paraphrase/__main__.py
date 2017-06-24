@@ -16,27 +16,27 @@ import pickle
 
 if __name__ == "__main__":
     print('reading database')
-    train_database = read_database("./paraphrase/train.csv", TrainDataRow)
+    train_database = read_database("./data/train.csv", TrainDataRow)
     print('train data size: ' + str(len(train_database)))
-    test_database  = read_database("./paraphrase/test.csv", TestDataRow)
+    test_database  = read_database("./data/test.csv", TestDataRow)
     print('test data size: ' + str(len(test_database)))
     # TODO: check database valid?
 
     features = [C1, C2, V1, V2] + \
         [concat(c, v) for c in [C1, C2] for v in [V1, V2]]
 
-    if not os.path.isfile('./paraphrase/NBclassfier.pkl'):
-        with open('./paraphrase/NBclassfier.pkl', 'wb') as output:
+    if not os.path.isfile('./data/NBclassfier.pkl'):
+        with open('./data/NBclassfier.pkl', 'wb') as output:
             w2v_nb = SciKitClassifier(train_database, word2vec_features, GaussianNB())
             pickle.dump(w2v_nb, output, pickle.HIGHEST_PROTOCOL)
             print('classfier trained and saved')
     else:
-        with open('./paraphrase/NBclassfier.pkl', 'rb') as input:
+        with open('./data/NBclassfier.pkl', 'rb') as input:
             w2v_nb = pickle.load(input)
             print('classfier loaded')
 
     print("using gaussian NB")
-    with open("./paraphrase/output.csv", 'w') as output_file:
+    with open("./data/output.csv", 'w') as output_file:
         writer = csv.writer(output_file)
         writer.writerow(['test_id', 'is_duplicate'])
         for guess in evaluate(w2v_nb, test_database):

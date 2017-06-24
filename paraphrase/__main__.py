@@ -8,6 +8,7 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.ensemble import RandomForestClassifier,AdaBoostRegressor
 from sklearn.pipeline import make_pipeline
 from sklearn import svm
+from pycorenlp import StanfordCoreNLP
 import sklearn.preprocessing as pre
 import csv
 import os.path
@@ -22,8 +23,19 @@ if __name__ == "__main__":
     print('test data size: ' + str(len(test_database)))
     # TODO: check database valid?
 
-    features = [C1, C2, V1, V2] + \
-        [concat(c, v) for c in [C1, C2] for v in [V1, V2]]
+    # nlp = StanfordCoreNLP('http://localhost:9000')
+    # text = (
+    #     'Pusheen and Smitha walked along the beach. '
+    #     'Pusheen wanted to surf, but fell off the surfboard.')
+    # output = nlp.annotate(text, properties={
+    #     'annotators': 'tokenize,ssplit,pos,depparse,parse',
+    #     'outputFormat': 'json'
+    #     })
+
+    # print(output['sentences'][0]['parse'])
+
+    # features = [C1, C2, V1, V2] + \
+    #     [concat(c, v) for c in [C1, C2] for v in [V1, V2]]
 
     if not os.path.isfile('./data/NBclassfier.pkl'):
         with open('./data/NBclassfier.pkl', 'wb') as output:
@@ -43,6 +55,7 @@ if __name__ == "__main__":
             writer.writerow(guess)
             if guess[0] % 1000 == 0:
                 print("writting row " + str(guess[0]), end="\r")
+
 
 '''
     for features_gen in features:

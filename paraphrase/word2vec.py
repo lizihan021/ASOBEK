@@ -4,8 +4,9 @@ from .names import named
 import numpy as np
 from math import sqrt
 
-WORD2VEC_FILEMAP = "./paraphrase/filemap.w2v"
+WORD2VEC_FILEMAP = "./data/filemap.w2v"
 
+print('loading word2vec file')
 _word2vec = MapReader(open(WORD2VEC_FILEMAP, "rb"))
 
 def _norm(v):

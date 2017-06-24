@@ -45,6 +45,12 @@ def read_database(filename, datarow_class):
         csvreader = csv.reader(io)
         return [datarow_class.from_tuple(line) for line in csvreader]
 
+def read_sentences(s1, s2, datarow_class):
+    tmp = ['0']
+    tmp.append(s1)
+    tmp.append(s2)
+    return [ datarow_class.from_tuple( tmp ) ]
+
 def read_test_labels(tests_file):
     def handle_line(line):
         ans, _ = line.split()

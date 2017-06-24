@@ -16,6 +16,7 @@ import pickle
 
 
 if __name__ == "__main__":
+    # test = read_sentences('I saw a dog today','A dog was seen by me',TestDataRow)
     print('reading database')
     train_database = read_database("./data/train.csv", TrainDataRow)
     print('train data size: ' + str(len(train_database)))
@@ -34,36 +35,49 @@ if __name__ == "__main__":
 
     # print(output['sentences'][0]['parse'])
 
-    # features = [C1, C2, V1, V2] + \
-    #     [concat(c, v) for c in [C1, C2] for v in [V1, V2]]
+    features = [C1, C2, V1, V2] + \
+        [concat(c, v) for c in [C1, C2] for v in [V1, V2]]
 
-    if not os.path.isfile('./data/NBclassfier.pkl'):
-        with open('./data/NBclassfier.pkl', 'wb') as output:
-            w2v_nb = SciKitClassifier(train_database, word2vec_features, GaussianNB())
-            pickle.dump(w2v_nb, output, pickle.HIGHEST_PROTOCOL)
-            print('classfier trained and saved')
-    else:
-        with open('./data/NBclassfier.pkl', 'rb') as input:
-            w2v_nb = pickle.load(input)
-            print('classfier loaded')
+    # if not os.path.isfile('./data/NBclassfier.pkl'):
+    #     with open('./data/NBclassfier.pkl', 'wb') as output:
+    #         w2v_nb = SciKitClassifier(train_database, word2vec_features, GaussianNB())
+    #         pickle.dump(w2v_nb, output, pickle.HIGHEST_PROTOCOL)
+    #         print('NB classfier trained and saved')
+    # else:
+    #     with open('./data/NBclassfier.pkl', 'rb') as input:
+    #         w2v_nb = pickle.load(input)
+    #         print('NB classfier loaded')
 
-    print("using gaussian NB")
-    with open("./data/output.csv", 'w') as output_file:
-        writer = csv.writer(output_file)
-        writer.writerow(['test_id', 'is_duplicate'])
-        for guess in evaluate(w2v_nb, test_database):
-            writer.writerow(guess)
-            if guess[0] % 1000 == 0:
-                print("writting row " + str(guess[0]), end="\r")
-
-
-'''
+    # print("using gaussian NB")
+    # with open("./data/output.csv", 'w') as output_file:
+    #     writer = csv.writer(output_file)
+    #     writer.writerow(['test_id', 'is_duplicate'])
+    #     for guess in evaluate(w2v_nb, test_database):
+    #         writer.writerow(guess)
+    #         if guess[0] % 1000 == 0:
+    #             print("writting row " + str(guess[0]), end="\r")
+    
     for features_gen in features:
         svm_pipeline = \
             make_pipeline(pre.StandardScaler(),  AdaBoostRegressor(n_estimators = 256))
-        classifier = SciKitClassifier(train_database, features_gen, svm_pipeline)
-        features_gen = concat(features_gen, word2vec_features)
-        print("features", features_gen.name)
-        for guess in evaluate(classifier, test_database):
-            print(guess)
-'''
+
+        if not os.path.isfile(('./data/svm'+features_gen.name+'.pkl')):
+            with open(('./data/svm'+features_gen.name+'.pkl'), 'wb') as output:
+                classifier = SciKitClassifier(train_database, word2vec_features, GaussianNB())
+                pickle.dump(w2v_nb, output, pickle.HIGHEST_PROTOCOL)
+                print('svm classfier trained and saved')
+        else:
+            with open(('./data/svm'+features_gen.name+'.pkl'), 'rb') as input:
+                classifier = pickle.load(input)
+                print('svm classfier loaded')
+
+        with open(('./data/output'+features_gen.name+'.csv'), 'w') as output_file:
+            writer = csv.writer(output_file)
+            writer.writerow(['test_id', 'is_duplicate'])
+            for guess in evaluate(classifier, test_database):
+                writer.writerow(guess)
+                if guess[0] % 1000 == 0:
+                    print("writting row " + str(guess[0]), end="\r")
+
+    print('finished')
+

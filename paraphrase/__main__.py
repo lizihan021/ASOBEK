@@ -64,7 +64,7 @@ if __name__ == "__main__":
         if not os.path.isfile(('./data/svm'+features_gen.name+'.pkl')):
             with open(('./data/svm'+features_gen.name+'.pkl'), 'wb') as output:
                 classifier = SciKitClassifier(train_database, word2vec_features, GaussianNB())
-                pickle.dump(w2v_nb, output, pickle.HIGHEST_PROTOCOL)
+                pickle.dump(classifier , output, pickle.HIGHEST_PROTOCOL)
                 print('svm classfier trained and saved')
         else:
             with open(('./data/svm'+features_gen.name+'.pkl'), 'rb') as input:

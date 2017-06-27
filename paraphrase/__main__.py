@@ -54,8 +54,7 @@ if __name__ == "__main__":
     #         if guess[0] % 1000 == 0:
     #             print("writting row " + str(guess[0]), end="\r")
 
-    features = [C1, C2, V1, V2] + \
-        [concat(c, v) for c in [C1, C2] for v in [V1, V2]]
+    features = [concat(c, v) for c in [C1, C2] for v in [V1, V2]]
     
     for features_gen in features:
         svm_pipeline = \

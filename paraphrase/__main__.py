@@ -16,12 +16,12 @@ import pickle
 
 
 if __name__ == "__main__":
-    test = read_sentences('I saw a dog','A dog was seen by me',TestDataRow)
+    # test = read_sentences('I saw a dog','A dog was seen by me',TestDataRow)
     print('reading database')
     train_database = read_database("./data/train.csv", TrainDataRow)
     print('train data size: ' + str(len(train_database)))
-    # test_database  = read_database("./data/test.csv", TestDataRow)
-    # print('test data size: ' + str(len(test_database)))
+    test_database  = read_database("./data/test.csv", TestDataRow)
+    print('test data size: ' + str(len(test_database)))
 
     # TODO: check database valid?
 
@@ -75,8 +75,8 @@ if __name__ == "__main__":
         with open(('./data/output'+features_gen.name+'.csv'), 'w') as output_file:
             writer = csv.writer(output_file)
             writer.writerow(['test_id', 'is_duplicate'])
-            # for guess in evaluate(classifier, test_database):
-            for guess in evaluate(classifier, test):
+            for guess in evaluate(classifier, test_database):
+            # for guess in evaluate(classifier, test):
                 writer.writerow(guess)
                 if guess[0] % 1000 == 0:
                     print("writting row " + str(guess[0]), end="\r")
